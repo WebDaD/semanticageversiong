@@ -1,0 +1,114 @@
+<html>
+  <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta charset="UTF-8" />
+      <meta name="author" content="Dominik Sigmund" />
+      <meta name="publisher" content="Dominik Sigmund" />
+      <meta name="copyright" content="Dominik Sigmund" />
+      <meta name="description" content="Semantic Age Versioning - Use SemVer to be more accurate with your age!" />
+      <meta name="keywords" content="Age, Birth, Date, SemVer" />
+      <meta name="page-topic" content="Age" />
+      <meta name="audience" content="All" />
+      <meta http-equiv="content-language" content="en" />
+      <meta name="robots" content="index, follow" />
+      <meta name="DC.Creator" content="Dominik Sigmund" />
+      <meta name="DC.Publisher" content="Dominik Sigmund" />
+      <meta name="DC.Rights" content="Dominik Sigmund" />
+      <meta name="DC.Description" content="Semantic Age Versioning - Use SemVer to be more accurate with your age!" />
+      <meta name="DC.Language" content="en" />
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="https://semaver.webdad.eu/" />
+      <meta name="twitter:title" content="Semantic Age Versioning - Use SemVer to be more accurate with your age!" />
+      <meta name="twitter:description" content="Semantic Age Versioning - Use SemVer to be more accurate with your age!" />
+      <meta property="og:type" content="event" />
+      <meta property="og:title" content="SSemantic Age Versioning - Use SemVer to be more accurate with your age!" />
+      <meta property="og:description" content="Semantic Age Versioning - Use SemVer to be more accurate with your age!" />
+      <meta property="og:url" content="https://semaver.webdad.eu/" />
+      <meta property="og:image" content="https://semaver.webdad.eu/android-chrome-512x512.png" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+      <link rel="manifest" href="/site.webmanifest">
+      <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+      <meta name="msapplication-TileColor" content="#000000">
+      <meta name="theme-color" content="#ffffff">
+    <style>
+      /* TODO: CSS Styles */
+    </style>
+    <title>Semantic Age Versioning</title>
+  </head>
+  <body>
+    <h1>Semantic Age Versioning</h1>
+    <div id="result"></div>
+    <div id="form">
+      <input type="text" id="input"/> <!-- TODO: Mask-->
+      <button role="button" onclick="formSubmit()">Calc</button><!--TODO: button on enter-->
+    </div>
+    <div id="share">
+      <!-- TODO: share buttons-->
+    </div>
+    <div id="links">
+      <!-- TODO: Links: Semver, Geek&Poke-Comic, Impressum, Datenschutz, Github-->
+    </div>
+    <script>
+      let urlParm = getParameterByName('birth')
+      if (urlParm && urlParm !== '') {
+        hide('form')
+        show('result')
+        let semaver = getSemAVer(urlParm)
+        html('result', semaver)
+      } else {
+        show('form')
+        hide('result')
+      } 
+      function formSubmit() {
+        let formValue = document.getElementById('input').value
+        let semaver = getSemAVer(formValue)
+        hide('form')
+        show('result')
+        html('result', semaver)
+      }
+
+      function getSemAVer(dateString) {
+        var mydate = new Date(dateString) // TODO: Display: YYYY-MM-DD
+        var now = Date.now()
+        let diff = now - mydate
+
+        let y = 365 * 24 * 60 * 60 * 1000
+        let monthMS = diff % y
+        let years = Math.floor(diff / y)
+
+        let m = 30 * 24 * 60 * 60 * 1000
+        let dayMS = monthMS % m
+        let months = Math.floor(monthMS / m)
+
+        let d = 24 * 60 * 60 * 1000
+        let days = Math.floor(dayMS / d)
+
+        return years + '.' + months + '.' + days
+      }
+      function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    function html(id, text) {
+      var x = document.getElementById(id)
+        x.innerHTML = text
+    }
+    function hide(id) {
+      var x = document.getElementById(id)
+        x.style.display = "none"
+    }
+    function show(id) {
+      var x = document.getElementById(id)
+        x.style.display = "block"
+    }
+    </script>
+  </body>
+</html>
